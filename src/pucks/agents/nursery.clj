@@ -23,8 +23,9 @@
     (pop-matrix)))
 
 (defn nursery-proposals [p]
-  (if (and (< @number-of-active-agents (:nursery-threshold @pucks-settings))
-           (zero? (rand-int 50)))
+  (if (or (and (< @number-of-active-agents (:nursery-threshold @pucks-settings))
+               (zero? (rand-int 50)))
+          (zero? (rand-int 1000))) ; very infrequently, inject some new genetic material, regardless of limits
     {:spawn [(assoc ((:spawn-function p))
                     ;; position will be relative to position of parent
                     :position [(- (rand-int 3) 1) (- (rand-int 3) 1)])]}
