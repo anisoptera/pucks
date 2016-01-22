@@ -9,7 +9,7 @@
   (let [[x y] (:position p)
         radius (:radius p)
         [r g b] (:color p)
-        [core-r core-g core-b] [238 118 0]
+        [core-r core-g core-b] [238 118 100]
         core-diameter (int (* (float radius) (:energy p)))]
     (push-matrix)
     (translate x y)

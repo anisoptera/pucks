@@ -8,7 +8,7 @@
 (defn draw-agents
   "Sets the background color and calls the :draw-functions of all agents."
   []
-  (background 230 180 230)
+  (background 20 0 20)
   (let [s (:scale @pucks-settings)]
     (scale s s))
   (doseq [a @all-agents] 
