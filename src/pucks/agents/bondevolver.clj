@@ -145,6 +145,14 @@ and that p2's position is relative to p1's."
     (assoc :zapper-urge (mutate-urge (:zapper-urge genome)))
     (assoc :spawn-probability (mutate-probability (:spawn-probability genome)))))
 
+(defn spawn-fn [p]
+  (merge p
+         {:velocity [(* 5 (- (rand) 0.5)) (* 5 (- (rand) 0.5))]
+          :rotation (* two-pi (rand))
+          ;; position will be relative to position of parent
+          :position [(- (rand-int 3) 1) (- (rand-int 3) 1)]
+          :memory {:genome (mutate (:genome (:memory p)))}}))
+
 (defn bondevolver 
   "Returns a random swarmevolver puck."
   []
@@ -163,9 +171,4 @@ and that p2's position is relative to p1's."
                             :vent-urge (rand-urge)
                             :zapper-urge (rand-urge)
                             :spawn-probability (rand-probability)}}
-          :spawn-function #(merge %
-                                  {:velocity [(* 5 (- (rand) 0.5)) (* 5 (- (rand) 0.5))]
-                                   :rotation (* two-pi (rand))
-                                   ;; position will be relative to position of parent
-                                   :position [(- (rand-int 3) 1) (- (rand-int 3) 1)]
-                                   :memory {:genome (mutate (:genome (:memory %)))}})}))
+          :spawn-function spawn-fn}))

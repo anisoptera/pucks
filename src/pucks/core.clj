@@ -7,7 +7,7 @@
 
 (ns pucks.core
   (:use quil.core clojure.pprint
-        [pucks globals util vec2D physics reap neighbors sensors draw]
+        [pucks globals util vec2D physics reap neighbors sensors draw persist]
         clojure.inspector)
   (:gen-class))
 
@@ -31,6 +31,9 @@ GUI interactions."
     (println "Iterations completed:" @iteration)
     (System/exit 0))
   (when (not @paused)     ;; only step forward and draw if not paused
+    (when-let [checkpoint-interval (:checkpoint-every @pucks-settings)]
+      (when (= 0 (mod @iteration checkpoint-interval)) ;; is this a checkpoint iteration?
+        (spit "state.edn" (persist-state))))
     (swap! iteration inc) ;; increment the global interation counter
     (swap! all-agents     ;; update step clocks in agents
            (fn [objs] 
@@ -64,6 +67,17 @@ GUI interactions."
       ;              (objects-overlapping-xy scaled-x scaled-y)))
       (inspect-tree (objects-overlapping-xy scaled-x scaled-y)))))
 
+(defn boot-pucks
+  "Boot pucks simulation from current global state."
+  []
+  (let [scaled-screen-size (* (:scale @pucks-settings) 
+                              (:screen-size @pucks-settings))]
+    (sketch
+     :title "pucks"
+     :setup setup
+     :draw draw
+     :size [scaled-screen-size scaled-screen-size])))
+
 (defn run-pucks [agents settings]
   "Run a pucks simulation with the provided agents and settings (which will
 be merged with the defaults)."
@@ -71,13 +85,14 @@ be merged with the defaults)."
   (swap! pucks-settings #(merge % settings))
   (when (:pause-on-start @pucks-settings)
     (reset! paused true))
-  (let [scaled-screen-size (* (:scale @pucks-settings) 
-                              (:screen-size @pucks-settings))]
-        (sketch
-          :title "pucks"
-          :setup setup
-          :draw draw
-          :size [scaled-screen-size scaled-screen-size])))
+  (boot-pucks))
+
+(defn restore-pucks
+  "Restores a pucks simulation from a file."
+  [filename]
+  (load-state (slurp filename))
+  (reset! paused true)
+  (boot-pucks))
 
 (defn -main 
   "This main function allows simulations to be run from the command line with:

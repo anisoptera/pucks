@@ -8,12 +8,12 @@
   :main pucks.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}}
-;;  the following should automatically take n% of the machine's RAM and also use the G1 garbage collector
-  :jvm-opts ~(let [mem-to-use (long (* (.getTotalPhysicalMemorySize
-                                        (java.lang.management.ManagementFactory/getOperatingSystemMXBean))
-                                      0.1))]
-              [(str "-Xmx" mem-to-use)
-               (str "-Xms" mem-to-use)
-               "-XX:+UseG1GC"
-               ])
+  ;; the following should automatically take n% of the machine's RAM and also use the G1 garbage collector
+  ;:jvm-opts ~(let [mem-to-use (long (* (.getTotalPhysicalMemorySize
+  ;                                       (java.lang.management.ManagementFactory/getOperatingSystemMXBean))
+  ;                                     0.5))]
+  ;             [(str "-Xmx" mem-to-use)
+  ;              (str "-Xms" mem-to-use)
+  ;              ;"-XX:+UseG1GC"
+  ;              ])
   )

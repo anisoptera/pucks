@@ -10,7 +10,8 @@
    :nursery-threshold 20
    :nursery-force-chance 1000
    :max-velocity 60
-   :sensor-range 200})
+   :sensor-range 200
+   :checkpoint-every 2000})
 
 (defn star []
   (merge (vent)
@@ -25,5 +26,5 @@
         (repeatedly 200 #(assoc (star) :position (get-random-position)))
         [(assoc (nursery bondevolver) :position (get-random-position))])))
 
-(run-pucks (agents) (settings))
+;(run-pucks (agents) (settings))
 

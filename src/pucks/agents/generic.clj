@@ -7,6 +7,9 @@
 (ns pucks.agents.generic
   (:use [pucks globals util]))
 
+(defn empty-map-fn [p] {})
+(defn false-fn [p] false)
+
 (defn generic []
   {:id (gensym "puck-")
    :mobile false
@@ -24,6 +27,6 @@
    :memory {}
    :inventory []
    :bound-to []
-   :draw-function (fn [p] false)
-   :proposal-function (fn [p] {})
-   :spawn-function (fn [p] {})})
+   :draw-function false-fn
+   :proposal-function empty-map-fn
+   :spawn-function empty-map-fn})
