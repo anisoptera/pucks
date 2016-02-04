@@ -4,6 +4,7 @@
   :license {:name "Eclipse Public License"
             :url "https://github.com/lspector/pucks"}
   :dependencies [[org.clojure/clojure "1.8.0"]
+                 [clojush "2.0.56"]
                  [quil "2.2.2"]]
   :main pucks.core
   :target-path "target/%s"
