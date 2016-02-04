@@ -1,7 +1,7 @@
 (ns pucks.agents.bit
   (:use quil.core
         [pucks globals util vec2D]
-        [pucks.agents generic active]))
+        [pucks.agents generic active push1]))
 
 (defn bit-proposals
   [p]
@@ -10,8 +10,7 @@
 (defn bit
   "Returns a random bit puck."
   []
-  (merge (active)
+  (merge (push1)
          {:bit true
           :photosynthesizes true
-          :proposal-function bit-proposals
-          :radius 5}))
+          :radius 10}))

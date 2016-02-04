@@ -19,7 +19,6 @@
 
 (defn agents []
   (vec (concat
-        (star 500 500 250)
-        [(assoc (nursery bondevolver) :position (get-random-position))])))
+        (star 500 500 250))))
 
 ;(run-pucks (agents) (settings))

@@ -84,8 +84,7 @@
   (if (> 10 (count (bits-for-nursery p)))
     {:spawn [(assoc (bit)
                     :position (get-random-spawn-point p)
-                    :parent-nursery id
-                    :velocity (/ (- 20 (rand-int 40)) 200))]}
+                    :parent-nursery id)]}
     {}))
 
 (defn star
